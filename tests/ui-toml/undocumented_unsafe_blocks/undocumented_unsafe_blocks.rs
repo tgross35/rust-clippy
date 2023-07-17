@@ -491,7 +491,7 @@ unsafe impl CrateRoot for () {}
 // SAFETY: ok
 unsafe impl CrateRoot for (i32) {}
 
-fn issue_9142() {
+fn nested_block_separation_issue_9142() {
     // SAFETY: ok
     let _ =
         // we need this comment to avoid rustfmt putting
@@ -518,49 +518,49 @@ pub const unsafe fn a_const_function_with_a_very_long_name_to_break_the_line() -
     2
 }
 
-fn issue_10832() {
-    // Safety: A safety comment
+fn separate_line_from_let_issue_10832() {
+    // Safety: A separate safety comment that will warn
     let _some_variable_with_a_very_long_name_to_break_the_line =
         unsafe { a_function_with_a_very_long_name_to_break_the_line() };
 
-    // Safety: Another safety comment
+    // Safety: Another separate safety comment that will warn
     const _SOME_CONST_WITH_A_VERY_LONG_NAME_TO_BREAK_THE_LINE: u32 =
         unsafe { a_const_function_with_a_very_long_name_to_break_the_line() };
 
-    // Safety: Yet another safety comment
+    // Safety: Yet another separate safety comment that will warn
     static _SOME_STATIC_WITH_A_VERY_LONG_NAME_TO_BREAK_THE_LINE: u32 =
         unsafe { a_const_function_with_a_very_long_name_to_break_the_line() };
 }
 
-fn issue_8679<T: Copy>() {
-    // SAFETY:
+fn above_expr_attribute_issue_8679<T: Copy>() {
+    // SAFETY: this should fail, above attribute
     #[allow(unsafe_code)]
     unsafe {}
 
-    // SAFETY:
+    // SAFETY: this should fail, above attribute
     #[expect(unsafe_code, reason = "totally safe")]
     unsafe {
         *std::ptr::null::<T>()
     };
 
-    // Safety: A safety comment
+    // Safety: A safety comment that should fail
     #[allow(unsafe_code)]
     let _some_variable_with_a_very_long_name_to_break_the_line =
         unsafe { a_function_with_a_very_long_name_to_break_the_line() };
 
-    // Safety: Another safety comment
+    // Safety: Another safety comment that should fail
     #[allow(unsafe_code)]
     const _SOME_CONST_WITH_A_VERY_LONG_NAME_TO_BREAK_THE_LINE: u32 =
         unsafe { a_const_function_with_a_very_long_name_to_break_the_line() };
 
-    // Safety: Yet another safety comment
+    // Safety: Yet another safety comment that should fail
     #[allow(unsafe_code)]
     static _SOME_STATIC_WITH_A_VERY_LONG_NAME_TO_BREAK_THE_LINE: u32 =
         unsafe { a_const_function_with_a_very_long_name_to_break_the_line() };
 
     // SAFETY:
     #[allow(unsafe_code)]
-    // This also works I guess
+    // This shouldn't work either
     unsafe {}
 }
 

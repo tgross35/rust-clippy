@@ -1,7 +1,8 @@
 //@aux-build:proc_macro_unsafe.rs:proc-macro
 
 #![warn(clippy::undocumented_unsafe_blocks, clippy::unnecessary_safety_comment)]
-#![allow(clippy::let_unit_value, clippy::missing_safety_doc)]
+#![allow(deref_nullptr, clippy::let_unit_value, clippy::missing_safety_doc)]
+#![feature(lint_reasons)]
 
 extern crate proc_macro_unsafe;
 
@@ -490,7 +491,7 @@ unsafe impl CrateRoot for () {}
 // SAFETY: ok
 unsafe impl CrateRoot for (i32) {}
 
-fn issue_9142() {
+fn nested_block_separation_issue_9142() {
     // SAFETY: ok
     let _ =
         // we need this comment to avoid rustfmt putting
@@ -517,18 +518,51 @@ pub const unsafe fn a_const_function_with_a_very_long_name_to_break_the_line() -
     2
 }
 
-fn issue_10832() {
-    // Safety: A safety comment. But it will warn anyways
+fn separate_line_from_let_issue_10832() {
+    // SAFETY:
     let _some_variable_with_a_very_long_name_to_break_the_line =
         unsafe { a_function_with_a_very_long_name_to_break_the_line() };
 
-    // Safety: Another safety comment. But it will warn anyways
+    // SAFETY:
     const _SOME_CONST_WITH_A_VERY_LONG_NAME_TO_BREAK_THE_LINE: u32 =
         unsafe { a_const_function_with_a_very_long_name_to_break_the_line() };
 
-    // Safety: Yet another safety comment. But it will warn anyways
+    // SAFETY:
     static _SOME_STATIC_WITH_A_VERY_LONG_NAME_TO_BREAK_THE_LINE: u32 =
         unsafe { a_const_function_with_a_very_long_name_to_break_the_line() };
+}
+
+fn above_expr_attribute_issue_8679<T: Copy>() {
+    // SAFETY:
+    #[allow(unsafe_code)]
+    unsafe {}
+
+    // SAFETY:
+    #[expect(unsafe_code, reason = "totally safe")]
+    unsafe {
+        *std::ptr::null::<T>()
+    };
+
+    // Safety: A safety comment
+    #[allow(unsafe_code)]
+    let _some_variable_with_a_very_long_name_to_break_the_line =
+        unsafe { a_function_with_a_very_long_name_to_break_the_line() };
+
+    // Safety: Another safety comment
+    #[allow(unsafe_code)]
+    const _SOME_CONST_WITH_A_VERY_LONG_NAME_TO_BREAK_THE_LINE: u32 =
+        unsafe { a_const_function_with_a_very_long_name_to_break_the_line() };
+
+    // Safety: Yet another safety comment with multiple attributes
+    #[allow(unsafe_code)]
+    #[allow(non_upper_case_globals)]
+    static _some_static_with_a_very_long_name_to_break_the_line: u32 =
+        unsafe { a_const_function_with_a_very_long_name_to_break_the_line() };
+
+    // SAFETY:
+    #[allow(unsafe_code)]
+    // This also works I guess
+    unsafe {}
 }
 
 fn main() {}

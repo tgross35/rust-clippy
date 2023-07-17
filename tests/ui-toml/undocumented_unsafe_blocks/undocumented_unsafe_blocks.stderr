@@ -276,6 +276,14 @@ LL | unsafe impl CrateRoot for () {}
    |
    = help: consider adding a safety comment on the preceding line
 
+error: unsafe block missing a safety comment
+  --> $DIR/undocumented_unsafe_blocks.rs:499:9
+   |
+LL |         unsafe {};
+   |         ^^^^^^^^^
+   |
+   = help: consider adding a safety comment on the preceding line
+
 error: statement has unnecessary safety comment
   --> $DIR/undocumented_unsafe_blocks.rs:502:5
    |
@@ -310,5 +318,77 @@ LL |             let bar = unsafe {};
    |
    = help: consider adding a safety comment on the preceding line
 
-error: aborting due to 35 previous errors
+error: unsafe block missing a safety comment
+  --> $DIR/undocumented_unsafe_blocks.rs:524:9
+   |
+LL |         unsafe { a_function_with_a_very_long_name_to_break_the_line() };
+   |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   |
+   = help: consider adding a safety comment on the preceding line
+
+error: unsafe block missing a safety comment
+  --> $DIR/undocumented_unsafe_blocks.rs:528:9
+   |
+LL |         unsafe { a_const_function_with_a_very_long_name_to_break_the_line() };
+   |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   |
+   = help: consider adding a safety comment on the preceding line
+
+error: unsafe block missing a safety comment
+  --> $DIR/undocumented_unsafe_blocks.rs:532:9
+   |
+LL |         unsafe { a_const_function_with_a_very_long_name_to_break_the_line() };
+   |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   |
+   = help: consider adding a safety comment on the preceding line
+
+error: unsafe block missing a safety comment
+  --> $DIR/undocumented_unsafe_blocks.rs:538:5
+   |
+LL |     unsafe {}
+   |     ^^^^^^^^^
+   |
+   = help: consider adding a safety comment on the preceding line
+
+error: unsafe block missing a safety comment
+  --> $DIR/undocumented_unsafe_blocks.rs:542:5
+   |
+LL |     unsafe {
+   |     ^^^^^^^^
+   |
+   = help: consider adding a safety comment on the preceding line
+
+error: unsafe block missing a safety comment
+  --> $DIR/undocumented_unsafe_blocks.rs:549:9
+   |
+LL |         unsafe { a_function_with_a_very_long_name_to_break_the_line() };
+   |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   |
+   = help: consider adding a safety comment on the preceding line
+
+error: unsafe block missing a safety comment
+  --> $DIR/undocumented_unsafe_blocks.rs:554:9
+   |
+LL |         unsafe { a_const_function_with_a_very_long_name_to_break_the_line() };
+   |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   |
+   = help: consider adding a safety comment on the preceding line
+
+error: unsafe block missing a safety comment
+  --> $DIR/undocumented_unsafe_blocks.rs:559:9
+   |
+LL |         unsafe { a_const_function_with_a_very_long_name_to_break_the_line() };
+   |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   |
+   = help: consider adding a safety comment on the preceding line
+
+error: unsafe block missing a safety comment
+  --> $DIR/undocumented_unsafe_blocks.rs:564:5
+   |
+LL |     unsafe {}
+   |     ^^^^^^^^^
+   |
+   = help: consider adding a safety comment on the preceding line
+
+error: aborting due to 45 previous errors
 

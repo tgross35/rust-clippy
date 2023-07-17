@@ -1,2 +1,2 @@
-accept-comment-above-statement = true
-accept-comment-above-attributes = true
+accept-comment-above-statement = false
+accept-comment-above-attributes = false
